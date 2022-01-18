@@ -68,7 +68,7 @@ int main()
                 }
                 else
                 {
-                    printf("\nDequeue Job A ");
+                    printf("\nDequeue Job A : ");
                     getQueue(0);
                     for (i = front; i < rear[0]; i++)
                     {
@@ -79,7 +79,7 @@ int main()
             }
             else
             {
-                printf("\nDequeue Job B ");
+                printf("\nDequeue Job B : ");
                 getQueue(1);
                 for (i = front; i < rear[1]; i++)
                 {
@@ -94,6 +94,7 @@ int main()
     printf("Job A = %d", queue[0][0]);
     printf("\nJob B = %d", queue[1][0]);
     */
+    
 }
 
 int getRandom(int lower, int upper)
