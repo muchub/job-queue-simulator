@@ -2,7 +2,11 @@
 #include <stdlib.h>
 #include <time.h>
 
+int size[2] = {5, 5}, front = 0, rear[2] = {0, 0};
+int queue[2][5], element, qfull = 0, job, i;
+
 int getRandom(int lower, int upper);
+int getQueue(int job_num);
 
 void delay(int number_of_seconds)
 {
@@ -19,9 +23,6 @@ void delay(int number_of_seconds)
 
 int main()
 {
-    int size[2] = {5, 5}, front = 0, rear[2] = {0, 0};
-    int queue[2][5], element, qfull = 0, job, i, j;
-
     srand(time(0));
     printf("Generating Jobs..\n\n");
     while (1)
@@ -43,29 +44,21 @@ int main()
                 queue[job][rear[job]] = element;
                 rear[job] = rear[job] + 1;
             }
-            
-            
+
             if (rear[0] == size[0] || rear[1] == size[1])
             {
                 qfull = 1;
                 printf("\nJob Generated..\n");
                 printf("\nJob A = ");
-                for (i = 0; i < rear[0]; i++)
-                {
-                    printf("%d\t", queue[0][i]);
-                }
+                getQueue(0);
                 printf("\nJob B = ");
-                for (i = 0; i < rear[1]; i++)
-                {
-                    printf("%d\t", queue[1][i]);
-                }
+                getQueue(1);
                 printf("\n");
             }
-            
         }
         else
         {
-            
+
             if (rear[1] == front)
             {
                 if (rear[0] == front)
@@ -75,7 +68,8 @@ int main()
                 }
                 else
                 {
-                    printf("\nDequeue Job A %d", queue[0][front]);
+                    printf("\nDequeue Job A ");
+                    getQueue(0);
                     for (i = front; i < rear[0]; i++)
                     {
                         queue[0][i] = queue[0][i + 1];
@@ -85,14 +79,14 @@ int main()
             }
             else
             {
-                printf("\nDequeue Job B = %d", queue[1][front]);
+                printf("\nDequeue Job B ");
+                getQueue(1);
                 for (i = front; i < rear[1]; i++)
                 {
                     queue[1][i] = queue[1][i + 1];
                 }
                 rear[1] = rear[1] - 1;
             }
-            
         }
     }
 
@@ -106,4 +100,12 @@ int getRandom(int lower, int upper)
 {
     int num = (rand() % (upper - lower + 1)) + lower;
     return num;
+}
+
+int getQueue(int job_num)
+{
+    for (i = 0; i < rear[job_num]; i++)
+    {
+        printf("%d\t", queue[job_num][i]);
+    }
 }
