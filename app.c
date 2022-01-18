@@ -7,6 +7,7 @@ int queue[2][5], element, qfull = 0, job, i;
 
 int getRandom(int lower, int upper);
 int getQueue(int job_num);
+int dequeue(int job_num);
 
 void delay(int number_of_seconds)
 {
@@ -70,22 +71,14 @@ int main()
                 {
                     printf("\nDequeue Job A : ");
                     getQueue(0);
-                    for (i = front; i < rear[0]; i++)
-                    {
-                        queue[0][i] = queue[0][i + 1];
-                    }
-                    rear[0] = rear[0] - 1;
+                    dequeue(0);
                 }
             }
             else
             {
                 printf("\nDequeue Job B : ");
                 getQueue(1);
-                for (i = front; i < rear[1]; i++)
-                {
-                    queue[1][i] = queue[1][i + 1];
-                }
-                rear[1] = rear[1] - 1;
+                dequeue(1);
             }
         }
     }
@@ -94,7 +87,6 @@ int main()
     printf("Job A = %d", queue[0][0]);
     printf("\nJob B = %d", queue[1][0]);
     */
-    
 }
 
 int getRandom(int lower, int upper)
@@ -109,4 +101,13 @@ int getQueue(int job_num)
     {
         printf("%d\t", queue[job_num][i]);
     }
+}
+
+int dequeue(int job_num)
+{
+    for (i = front; i < rear[job_num]; i++)
+    {
+        queue[job_num][i] = queue[job_num][i + 1];
+    }
+    rear[job_num] = rear[job_num] - 1;
 }
