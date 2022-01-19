@@ -4,6 +4,7 @@
 
 int size[2] = {5, 5}, front = 0, rear[2] = {0, 0};
 int queue[2][5], element, qfull = 0, job, i;
+float average_time, max_time = 3, total_time = 0, total_rear;
 
 int getRandom(int lower, int upper);
 int getQueue(int job_num);
@@ -28,9 +29,8 @@ int main()
     printf("Generating Jobs..\n\n");
     while (1)
     {
-        delay(1);
         job = getRandom(0, 1);
-        element = getRandom(0, 999);
+        element = getRandom(0, 10);
         //printf("%d\t", element);
 
         if (qfull == 0)
@@ -44,10 +44,12 @@ int main()
             {
                 queue[job][rear[job]] = element;
                 rear[job] = rear[job] + 1;
+                total_time = total_time + element;
             }
 
             if (rear[0] == size[0] || rear[1] == size[1])
             {
+                total_rear = rear[0] + rear[1];
                 qfull = 1;
                 printf("\nJob Generated..\n");
                 printf("\nJob A = ");
@@ -56,6 +58,7 @@ int main()
                 getQueue(1);
                 printf("\n");
             }
+            delay(1);
         }
         else
         {
@@ -87,6 +90,11 @@ int main()
     printf("Job A = %d", queue[0][0]);
     printf("\nJob B = %d", queue[1][0]);
     */
+   //printf("Rear A = %d\n Rear B = %d", rear[0], rear[1]);
+   average_time = (total_time/total_rear);
+   printf("\n\nAverage waiting time is %f seconds", average_time);
+   //printf("\n\ntotal time is %.1f", total_time);
+   //printf("\n\ntotal rear is %.1f", total_rear);
 }
 
 int getRandom(int lower, int upper)
@@ -105,9 +113,26 @@ int getQueue(int job_num)
 
 int dequeue(int job_num)
 {
-    for (i = front; i < rear[job_num]; i++)
+    int new_job;
+    if (queue[job_num][front] <= max_time)
     {
-        queue[job_num][i] = queue[job_num][i + 1];
+        delay(queue[job_num][front]);
+        for (i = front; i < rear[job_num]; i++)
+        {
+            queue[job_num][i] = queue[job_num][i + 1];
+        }
+        rear[job_num] = rear[job_num] - 1;
     }
-    rear[job_num] = rear[job_num] - 1;
+    else
+    {
+        new_job = queue[job_num][front] - max_time;
+        delay(max_time);
+        for (i = front; i < rear[job_num]; i++)
+        {
+            queue[job_num][i] = queue[job_num][i + 1];
+            queue[job_num][rear[job_num] - 1] = new_job;
+        }
+        //queue[job_num][rear[job_num]] = new_job;
+        //printf("rear = %d", rear[job_num]);
+    }
 }
