@@ -92,7 +92,7 @@ int main()
     */
    //printf("Rear A = %d\n Rear B = %d", rear[0], rear[1]);
    average_time = (total_time/total_rear);
-   printf("\n\nAverage waiting time is %f seconds", average_time);
+   printf("\n\nAverage waiting time is %.2f seconds", average_time);
    //printf("\n\ntotal time is %.1f", total_time);
    //printf("\n\ntotal rear is %.1f", total_rear);
 }
@@ -105,7 +105,7 @@ int getRandom(int lower, int upper)
 
 int getQueue(int job_num)
 {
-    for (i = 0; i < rear[job_num]; i++)
+    for (i = front; i < rear[job_num]; i++)
     {
         printf("%d\t", queue[job_num][i]);
     }
@@ -130,9 +130,9 @@ int dequeue(int job_num)
         for (i = front; i < rear[job_num]; i++)
         {
             queue[job_num][i] = queue[job_num][i + 1];
-            queue[job_num][rear[job_num] - 1] = new_job;
+            queue[job_num][rear[job_num]] = new_job;
         }
         //queue[job_num][rear[job_num]] = new_job;
-        //printf("rear = %d", rear[job_num]);
+        //printf("new_job = %d", new_job);
     }
 }
